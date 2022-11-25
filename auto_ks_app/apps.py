@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
-#heorkuアプリ名：semi-auto-ks
+#heorkuアプリ名：semi-auto-ks-h
 
 
 class UploadAppConfig(AppConfig):
