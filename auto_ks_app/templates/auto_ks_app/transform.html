@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>画像処理サイト</title>
+</head>
+
+<body>
+    <br>
+    <h1>画像処理結果を出力します。</h1>
+    <br>
+
+    <div>
+        <h3>画像のタイトル：</h3>
+        {{title}}
+        <p><br></p>
+
+        <h3>
+            入力画像
+        </h3>
+        <img src="{{original_url}}">
+        <p><br></p>
+        
+        {% if result_url == '' %}
+        <h3>
+            画像処理失敗
+        </h3>
+        <img src="{{original_url}}">
+        {% else %}
+        <h3>
+            処理後の画像
+        </h3>
+        <img src="{{result_url}}">
+        {% endif %}
+        <p><br></p>
+
+        <p>
+            処理後の画像が欲しい方は
+            <br>
+            画像を右クリック（macの方は二本指クリック）して保存してください
+        </p>
+        <p><br></p>
+        <p><br></p>
+    </div>
+</body>
+
+</html>

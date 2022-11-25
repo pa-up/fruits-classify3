@@ -1,0 +1,113 @@
+<!doctype html>
+{% load static %}
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>台形補正サイト</title>
+
+    <style>
+        div.center_block {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 5%;
+            margin-bottom: 10%;
+        }
+    
+        div.reg {
+            background-color: #EEEEEE;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+    
+        .img_css {
+            width: 75%;
+        }
+    
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <h1>台形補正前と後の画像を出力します。</h1>
+    <br>
+
+    <div class="center_block">
+        <h2>
+            入力画像
+        </h2>
+        <img src="{{original_url}}" class="img_css">
+        <p><br><br></p>
+        
+
+        {% if success_number == 0 %}
+
+        <h2>
+            台形補正失敗
+        </h2>
+        <p>
+            申し訳ございません！サービスの品質向上に向けて精進いたします！
+        </p>
+        <p><br></p>
+
+        
+        
+
+        {% else %}
+        <p><br></p>
+        <p>
+            補正後の画像が欲しい方は
+            <br>
+            画像を右クリック（macの方は二本指クリック）して保存してください
+        </p>
+        <p><br></p>
+
+        <p>
+            <strong>
+                <font size="4.5">
+                    {{success_number}}種類
+                </font>
+            </strong>
+            の補正画像が得られました。
+            <br>最も綺麗に補正できている画像をお選びください。
+        </p>
+        <p><br></p>
+
+        <h2>
+            台形補正後の画像
+        </h2>
+
+        <p>
+            補正後の画像が欲しい方は
+            <br>
+            画像を右クリック（macの方は二本指クリック）して保存してください
+        </p>
+        <p><br></p>
+        
+
+        {% for r_cv in result_url %}
+
+        {% if r_cv == original_url %}
+        <p></p>
+
+        {% else %}
+        <img src="{{r_cv}}" class="img_css">
+        <p></p>
+
+        {% endif %}
+
+        {% endfor %}
+        
+
+        {% endif %}
+        
+        <p><br></p>
+        </div>
+</body>
+
+</html>

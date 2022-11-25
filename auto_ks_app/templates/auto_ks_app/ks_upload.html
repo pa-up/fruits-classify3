@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+  <title>台形補正サイト</title>
+  <style>
+    div.center_block {
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-top: 5%;
+      margin-bottom: 10%;
+    }
+    div.reg {
+      background-color: #EEEEEE;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      vertical-align: middle;
+      text-align: center;
+    }
+    .img_css {
+      width: 75%;
+    }
+    h1 {
+      text-align: center;
+    }
+</style>
+
+</head>
+
+<body>
+  <div class="center_block">
+    <h1>
+      台形補正サイト 〜歪んだ画像を綺麗にしよう〜
+    </h1>
+    <p><br></p>
+
+    <div class="reg">
+      <h3>
+        台形補正したい画像をアップロードしてください
+      </h3>
+      <table>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">台形補正を実行</button>
+        </form>
+      </table>
+    </div>
+
+    <p><br></p>
+    <h3>
+      画像をアップロードする際の注意点
+    </h3>
+    <ul>
+      <li>「台形補正したい箇所」と「背景」の明度差が大きい画像の方が上手に補正できます。</li>
+      <li>画像は横サイズ、縦サイズともに1500未満でアップロードしてください。<br>（NG例：<font color="red"><strong>1800</strong></font> × 300）</li>
+    </ul>
+
+    <p><br><br></p>
+
+    <h3>
+      台形補正とは
+    </h3>
+    <p>
+      長方形の対象物を斜め方向から撮影すると、対象物が台形状に歪んでいる写真が出来上がります。
+    </p>
+    <img src="{% static 'sample_img/ks_img1.png' %}" class="img_css">
+    <p>
+      台形補正はそのような台形状に歪んだ画像が綺麗な長方形になるよう補正することができます。
+      <br>
+      ※ 本サイトでは台形でなくても、四角形であれば補正できます！
+      <br>
+    </p>
+  </div>
+  <p><br></p>
+  <p><br></p>
+</body>
+</html>

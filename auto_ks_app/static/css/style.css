@@ -1,0 +1,23 @@
+div.center_block {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+div.reg {
+    background-color: #EEEEEE;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.img_css {
+    width: 50%;
+}
+
+h1 {
+    text-align: center;
+}
