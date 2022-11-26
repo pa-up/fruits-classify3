@@ -3,7 +3,7 @@
 import os
 import sys
 
-#heorkuアプリ名：semi-auto-ks-h
+#heorkuアプリ名：s-auto-ks
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_prj.settings')

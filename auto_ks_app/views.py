@@ -3,9 +3,13 @@ from django.urls import reverse
 from django.shortcuts import render
 from .forms import UploadImgForm
 from .models import UploadImgModel
-from auto_ks_app.views_modules import s3_dave
+
 import sys
 import cv2
+from PIL import Image
+
+from auto_ks_app.views_modules import pil2cv
+from auto_ks_app.views_modules import s3_dave
 
 # ------------------------------------------------------------------
 
@@ -21,18 +25,39 @@ def img_up(request):
             
             # djangoのform機能から、アップロード画像を取得
             img = form.cleaned_data['img']
+            
 
-            # formから得たデータを、データベースに保存
+            #========================================================
+            # 入力画像を処理・保存
+            #========================================================
+            pil_img = Image.open(img)
+            cv_img = pil2cv.pil2opencv(pil_img)
+
+            # -----------------------------------------------------------
+            # S3へのアップロード
+            # -----------------------------------------------------------
+            bucket_name = "ks-img-save"
+            file_name = "img.png"
+            cv2.imwrite(file_name, cv_img)
+            original_url = s3_dave.file_boto3(file_name, bucket_name)
+            # -----------------------------------------------------------
+            
+            # 入力画像をセッション変数に保存
+            request.session['original_url'] = original_url
+
+            #========================================================
+
+
+            #========================================================
+            # 出力画像を処理・保存
+            #========================================================
             modes_data = UploadImgModel.objects.create(
                 img=img, success_number=0
             )
             modes_data.save()
-            
+
             #「model.py」のクラス内の関数を実行し、フィールド「result」に格納
             cv_calc_img = UploadImgModel.transform(modes_data)
-
-            # データベースに保存された入力画像のURLをセッションに保存
-            request.session['original_url'] = modes_data.img.url
 
             # -----------------------------------------------------------
             # S3へのアップロード
@@ -49,7 +74,10 @@ def img_up(request):
 
             request.session['s3_img_url'] = s3_img_url
             request.session['success_number'] = modes_data.success_number
+
+            #========================================================
             
+
             return HttpResponseRedirect(reverse('auto_ks_app:transform'))
 
     else:
