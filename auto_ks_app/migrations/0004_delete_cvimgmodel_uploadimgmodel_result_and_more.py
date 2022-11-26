@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('KeyStone_app', '0003_cvimgmodel'),
+        ('auto_ks_app', '0003_cvimgmodel'),
     ]
 
     operations = [

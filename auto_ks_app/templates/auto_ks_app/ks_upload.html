@@ -43,10 +43,6 @@
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
-          <font size="1.5">
-            ※ 処理には影響ありませんが、アプリ管理の都合上、お好きなタイトルの入力をお願いします。
-          </font>
-          <p><br></p>
           <button type="submit">台形補正を実行</button>
           <p></p>
         </form>
