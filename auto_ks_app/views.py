@@ -3,7 +3,9 @@ from django.urls import reverse
 from django.shortcuts import render
 from .forms import UploadImgForm
 from .models import UploadImgModel
+from auto_ks_app.views_modules import s3_dave
 import sys
+import cv2
 
 # ------------------------------------------------------------------
 
@@ -23,104 +25,35 @@ def img_up(request):
 
             # formから得たデータを、データベースに保存
             modes_data = UploadImgModel.objects.create(
-                title=title, img=img, success_number=0, result1=img, 
-                result2=img, result3=img, result4=img, result5=img, 
-                result6=img, result7=img, result8=img, result9=img, 
-                result10=img, result11=img, result12=img, result13=img)
+                title=title, img=img, success_number=0
+            )
             modes_data.save()
             
             #「model.py」のクラス内の関数を実行し、フィールド「result」に格納
-            UploadImgModel.transform(modes_data)
+            cv_calc_img = UploadImgModel.transform(modes_data)
 
             # データベースに保存された画像のURLをセッションに保存
             request.session['title'] = modes_data.title
             request.session['original_url'] = modes_data.img.url
 
-            # 補正に成功した画像の数だけ、補正画像へのURLを格納
-            count = 0
-            if modes_data.success_number >= count + 1:
-                request.session['result1_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result1_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result2_url'] = modes_data.result2.url
-                count = count + 1
-            else:
-                request.session['result2_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result3_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result3_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result4_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result4_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result5_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result5_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result6_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result6_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result7_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result7_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result8_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result8_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result9_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result9_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result10_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result10_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result11_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result11_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result12_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result12_url'] = modes_data.img.url
-            #
-            if modes_data.success_number >= count + 1:
-                request.session['result13_url'] = modes_data.result1.url
-                count = count + 1
-            else:
-                request.session['result13_url'] = modes_data.img.url
-            #
-            
+            # -----------------------------------------------------------
+            # S3へのアップロード
+            # -----------------------------------------------------------
+            bucket_name = "ks-img-save"
+            s3_img_url = []
 
+            for k , c_img in enumerate(cv_calc_img):
+                number = str(k)
+                file_name = 'ks_img' + number + '.png'
+                cv2.imwrite(file_name, c_img)
+                s3_img_url.append(s3_dave.file_boto3(file_name, bucket_name))
+            # -----------------------------------------------------------
+
+            request.session['s3_img_url'] = s3_img_url
             request.session['success_number'] = modes_data.success_number
             
             return HttpResponseRedirect(reverse('auto_ks_app:transform'))
+
     else:
         form = UploadImgForm()
     return render(request, 'auto_ks_app/ks_upload.html', {'form': form})
@@ -147,29 +80,13 @@ def transform(request):
     # セッションから画像URLを取り出す
     title = request.session.get('title')
     original_url = request.session.get('original_url')
-
     success_number = request.session['success_number']
-
-    # result1 〜 result13   # マスク画像の個数に応じて出力
-    result_cv = []
-    result_cv.append(request.session.get('result1_url'))
-    result_cv.append(request.session.get('result2_url'))
-    result_cv.append(request.session.get('result3_url'))
-    result_cv.append(request.session.get('result4_url'))
-    result_cv.append(request.session.get('result5_url'))
-    result_cv.append(request.session.get('result6_url'))
-    result_cv.append(request.session.get('result7_url'))
-    result_cv.append(request.session.get('result8_url'))
-    result_cv.append(request.session.get('result9_url'))
-    result_cv.append(request.session.get('result10_url'))
-    result_cv.append(request.session.get('result11_url'))
-    result_cv.append(request.session.get('result12_url'))
-    result_cv.append(request.session.get('result13_url'))
+    s3_img_url = request.session['s3_img_url']
 
     params = {
         'title': title,
         'original_url': original_url,
-        'result_url': result_cv,
+        'result_url': s3_img_url,
         'success_number': success_number,
         }
 
