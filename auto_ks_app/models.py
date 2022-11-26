@@ -34,7 +34,7 @@ class UploadImgModel(models.Model):
             cv_img, mask_df, mask_number)
         self.success_number = success   # 補正に成功したマスク画像の数
 
-        # 補正成功画像のリストを戻り値（Herokuデプロイの際には、DBから画像を取り出すことはできない）
+        # 補正成功画像のリストを戻り値
         return cv_calc_img
     #
 
