@@ -12,7 +12,7 @@ import cv2
 
 def img_up(request):
     if request.method == 'POST':
-        form = UploadImgForm(request.FILES)
+        form = UploadImgForm(request.POST, request.FILES)
         if form.is_valid():
             sys.stderr.write("*** img_up *** aaa ***\n")
             handle_uploaded_img(request.FILES['img'])
