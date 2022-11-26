@@ -78,7 +78,6 @@ def handle_uploaded_img(img_obj):
 
 def transform(request):
     # セッションから画像URLを取り出す
-    title = request.session.get('title')
     original_url = request.session.get('original_url')
     success_number = request.session['success_number']
     s3_img_url = request.session['s3_img_url']

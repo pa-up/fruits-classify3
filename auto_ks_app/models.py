@@ -31,7 +31,8 @@ class UploadImgModel(models.Model):
         # OpenCVでの画像処理（台形補正）
         #==========================================================
         cv_calc_img, success = cv2_calc.auto_keystone(
-            cv_img, mask_df, mask_number)
+            cv_img, mask_df, mask_number
+        )
         self.success_number = success   # 補正に成功したマスク画像の数
 
         # 補正成功画像のリストを戻り値
