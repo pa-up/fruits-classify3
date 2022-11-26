@@ -20,12 +20,11 @@ def img_up(request):
             sys.stderr.write(img_obj.name + "\n")
             
             # djangoのform機能から、アップロード画像を取得
-            title = form.cleaned_data['title']
             img = form.cleaned_data['img']
 
             # formから得たデータを、データベースに保存
             modes_data = UploadImgModel.objects.create(
-                title=title, img=img, success_number=0
+                img=img, success_number=0
             )
             modes_data.save()
             
@@ -33,7 +32,6 @@ def img_up(request):
             cv_calc_img = UploadImgModel.transform(modes_data)
 
             # データベースに保存された入力画像のURLをセッションに保存
-            request.session['title'] = modes_data.title
             request.session['original_url'] = modes_data.img.url
 
             # -----------------------------------------------------------

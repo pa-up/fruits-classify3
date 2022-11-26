@@ -11,7 +11,6 @@ mask_number = int(250 / mask_df) + 1  # マスク画像の数(min閾値の数)
 
 
 class UploadImgModel(models.Model):
-    title = models.CharField(max_length=50, default='title')
     img = models.ImageField(upload_to='documents/')
     success_number = models.IntegerField(default=0)
 

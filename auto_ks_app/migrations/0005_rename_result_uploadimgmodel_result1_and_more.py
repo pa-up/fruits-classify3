@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auto_ks_app', '0004_delete_cvimgmodel_uploadimgmodel_result_and_more'),
+        ('KeyStone_app', '0004_delete_cvimgmodel_uploadimgmodel_result_and_more'),
     ]
 
     operations = [
