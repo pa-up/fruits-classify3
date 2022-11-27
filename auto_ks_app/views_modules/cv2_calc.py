@@ -85,14 +85,6 @@ def auto_keystone(cv_img, mask_df, mask_number):
         if count >= 1:
             edge_4_mask.append(max(edge_4_easy, key=lambda x: cv2.contourArea(x)))
             mask_count = mask_count + 1
-        #
-
-        # 頂点4つ画像がなかった場合 → 入力画像を入力 （本当はこんなことせずに失敗にしたい）
-        # これにより、13種類のマスク画像すべてで、補正画像を出力できるようにしてる（modelのresult1~13全てを出力）
-        #if count == 0:
-            #edge_4_mask.append(cv_img)#### ここに間違いあるのでは？？？
-            #mask_count = mask_count + 1
-        #
 
 
         # 再利用する変数を初期化
