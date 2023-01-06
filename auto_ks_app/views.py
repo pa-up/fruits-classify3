@@ -65,7 +65,7 @@ def img_up(request):
 
 
             # アップロードされたimgファイルからPIL画像オブジェクト生成
-            pil_img = pil_cv_binary.binar2pil(img)
+            pil_img = pil_cv_binary.binar2pil(img_obj)
 
             # PIL画像をOpenCV画像に変換
             cv_img = pil_cv_binary.pil2opencv(pil_img)
