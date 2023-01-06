@@ -67,30 +67,30 @@ WSGI_APPLICATION = 'django_prj.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if not DEBUG:
-    # Heroku settings
+# if not DEBUG:
+#     # Heroku settings
 
-    # ClearDB setting
-    if 'DATABASES' not in locals():
-        DATABASES = {}
+#     # ClearDB setting
+#     if 'DATABASES' not in locals():
+#         DATABASES = {}
 
-    if 'DATABASE_URL' in os.environ:
-        url = urlparse(os.environ['DATABASE_URL'])
+#     if 'DATABASE_URL' in os.environ:
+#         url = urlparse(os.environ['DATABASE_URL'])
 
-        # Ensure default database exists.
-        DATABASES['default'] = DATABASES.get('default', {})
+#         # Ensure default database exists.
+#         DATABASES['default'] = DATABASES.get('default', {})
 
-        # Update with environment configuration.
-        DATABASES['default'].update({
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': url.path[1:],
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port,
-        })
+#         # Update with environment configuration.
+#         DATABASES['default'].update({
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': url.path[1:],
+#             'USER': url.username,
+#             'PASSWORD': url.password,
+#             'HOST': url.hostname,
+#             'PORT': url.port,
+#         })
 
-    django_heroku.settings(locals())
+#     django_heroku.settings(locals())
 
 
 
