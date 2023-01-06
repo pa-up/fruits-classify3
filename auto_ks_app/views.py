@@ -103,6 +103,7 @@ def img_up(request):
 
             #========================================================
 
+            print(s3_img_url)
             sys.stderr.write(s3_img_url + "\n")
 
             return HttpResponseRedirect(reverse('auto_ks_app:transform'))
