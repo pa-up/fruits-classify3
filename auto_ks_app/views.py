@@ -38,7 +38,7 @@ def img_up(request):
             sys.stderr.write("バイナリをPILに変換" + "\n")
             cv_img = pil_cv_binary.pil2opencv(pil_img)
 
-            sys.stderr.write(cv_img.shape + "\n")
+            sys.stderr.write(cv_img + "\n")
 
             # -----------------------------------------------------------
             # S3へのアップロード
