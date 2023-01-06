@@ -2,14 +2,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from .forms import UploadImgForm
-from .models import UploadImgModel
+# from .models import UploadImgModel
+
+from auto_ks_app.views_modules import cv2_calc
+from auto_ks_app.views_modules import pil_cv_binary
+from auto_ks_app.views_modules import s3_dave
 
 import sys
 import cv2
 from PIL import Image
-
-from auto_ks_app.views_modules import pil2cv
-from auto_ks_app.views_modules import s3_dave
 
 # ------------------------------------------------------------------
 
@@ -31,7 +32,7 @@ def img_up(request):
             # 入力画像を処理・保存
             #========================================================
             pil_img = Image.open(img)
-            cv_img = pil2cv.pil2opencv(pil_img)
+            cv_img = pil_cv_binary.pil2opencv(pil_img)
 
             # -----------------------------------------------------------
             # S3へのアップロード
@@ -51,13 +52,28 @@ def img_up(request):
             #========================================================
             # 出力画像を処理・保存
             #========================================================
-            modes_data = UploadImgModel.objects.create(
-                img=img, success_number=0
-            )
-            modes_data.save()
+            # modes_data = UploadImgModel.objects.create(
+            #     img=img, success_number=0
+            # )
+            # modes_data.save()
 
-            #「model.py」のクラス内の関数を実行し、フィールド「result」に格納
-            cv_calc_img = UploadImgModel.transform(modes_data)
+            # #「model.py」のクラス内の関数を実行し、フィールド「result」に格納
+            # cv_calc_img = UploadImgModel.transform(modes_data)
+
+
+            # アップロードされたimgファイルからPIL画像オブジェクト生成
+            pil_img = pil_cv_binary.binar2pil(img)
+
+            # PIL画像をOpenCV画像に変換
+            cv_img = pil_cv_binary.pil2opencv(pil_img)
+
+            # OpenCVでの画像処理（台形補正）
+            mask_df = 20  # min閾値どうしの差
+            mask_number = int(250 / mask_df) + 1  # マスク画像の数(min閾値の数)
+            cv_calc_img, success = cv2_calc.auto_keystone(
+                cv_img, mask_df, mask_number
+            )
+
 
             # -----------------------------------------------------------
             # S3へのアップロード
@@ -72,8 +88,8 @@ def img_up(request):
                 s3_img_url.append(s3_dave.file_boto3(file_name, bucket_name))
             # -----------------------------------------------------------
 
-            request.session['s3_img_url'] = s3_img_url
-            request.session['success_number'] = modes_data.success_number
+            request.session['s3_img_url'] = s3_img_url  # OpenCV処理画像
+            request.session['success_number'] = success
 
             #========================================================
             
@@ -106,7 +122,7 @@ def transform(request):
     # セッションから画像URLを取り出す
     original_url = request.session.get('original_url')
     success_number = request.session['success_number']
-    s3_img_url = request.session['s3_img_url']
+    s3_img_url = request.session['s3_img_url']  # OpenCV処理画像
 
     params = {
         'original_url': original_url,
