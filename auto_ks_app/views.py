@@ -105,7 +105,7 @@ def img_up(request):
     bucket_name = "sample-img-save"
 
     file_name = 'sample_img.png'
-    file_path = './static/sample_img/ks_img1.png'
+    file_path = './data/sample_img/ks_img1.png'
     sample_img = cv2.imread(file_path)
     cv2.imwrite(file_name, sample_img)
 
