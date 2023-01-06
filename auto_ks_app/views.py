@@ -23,6 +23,11 @@ def img_up(request):
             handle_uploaded_img(request.FILES['img'])
             img_obj = request.FILES['img']
             sys.stderr.write(img_obj.name + "\n")
+
+            img = form.save()
+
+            print("ここまで")
+
             
             # djangoのform機能から、アップロード画像を取得
             img = form.cleaned_data['img']
