@@ -82,6 +82,8 @@ def img_up(request):
                 cv_img, mask_df, mask_number
             )
 
+            print(cv_calc_img[0].shape)
+
 
             # -----------------------------------------------------------
             # S3へのアップロード
