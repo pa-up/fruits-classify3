@@ -38,6 +38,8 @@ def img_up(request):
             sys.stderr.write("バイナリをPILに変換" + "\n")
             cv_img = pil_cv_binary.pil2opencv(pil_img)
 
+            sys.stderr.write(cv_img.shape + "\n")
+
             # -----------------------------------------------------------
             # S3へのアップロード
             # -----------------------------------------------------------
@@ -49,6 +51,8 @@ def img_up(request):
             
             # 入力画像をセッション変数に保存
             request.session['original_url'] = original_url
+
+            sys.stderr.write(original_url + "\n")
 
             #========================================================
 
