@@ -100,7 +100,8 @@ def img_up(request):
             request.session['success_number'] = success
 
             #========================================================
-            
+
+            sys.stderr.write(s3_img_url + "\n")
 
             return HttpResponseRedirect(reverse('auto_ks_app:transform'))
 
