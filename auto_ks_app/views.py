@@ -35,6 +35,7 @@ def img_up(request):
             # 入力画像を処理・保存
             #========================================================
             pil_img = Image.open(img_obj)
+            sys.stderr.write("バイナリをPILに変換" + "\n")
             cv_img = pil_cv_binary.pil2opencv(pil_img)
 
             # -----------------------------------------------------------
