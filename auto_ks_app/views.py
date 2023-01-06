@@ -24,9 +24,7 @@ def img_up(request):
             img_obj = request.FILES['img']
             sys.stderr.write(img_obj.name + "\n")
 
-            img = form.save()
-
-            print("ここまで")
+            sys.stderr.write("ここまで" + "\n")
 
             
             # djangoのform機能から、アップロード画像を取得
@@ -36,7 +34,7 @@ def img_up(request):
             #========================================================
             # 入力画像を処理・保存
             #========================================================
-            pil_img = Image.open(img)
+            pil_img = Image.open(img_obj)
             cv_img = pil_cv_binary.pil2opencv(pil_img)
 
             # -----------------------------------------------------------
