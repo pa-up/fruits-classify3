@@ -30,7 +30,7 @@ def img_up(request):
 
             
             # djangoのform機能から、アップロード画像を取得
-            img = form.cleaned_data['img']
+            # img = form.cleaned_data['img']
             
 
             #========================================================
