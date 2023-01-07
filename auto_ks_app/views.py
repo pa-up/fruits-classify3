@@ -19,26 +19,13 @@ def img_up(request):
     if request.method == 'POST':
         form = UploadImgForm(request.POST, request.FILES)
         if form.is_valid():
-            sys.stderr.write("*** img_up *** aaa ***\n")
-            handle_uploaded_img(request.FILES['img'])
             img_obj = request.FILES['img']
-            sys.stderr.write(img_obj.name + "\n")
-
-            sys.stderr.write("ここまで" + "\n")
-
-            
-            # djangoのform機能から、アップロード画像を取得
-            # img = form.cleaned_data['img']
-            
 
             #========================================================
             # 入力画像を処理・保存
             #========================================================
             pil_img = Image.open(img_obj)
-            sys.stderr.write("バイナリをPILに変換" + "\n")
             cv_img = pil_cv_binary.pil2opencv(pil_img)
-
-            print(cv_img.shape)
 
             # -----------------------------------------------------------
             # S3へのアップロード
@@ -48,25 +35,6 @@ def img_up(request):
             cv2.imwrite(file_name, cv_img)
             original_url = s3_dave.file_boto3(file_name, bucket_name)
             # -----------------------------------------------------------
-            
-            # 入力画像をセッション変数に保存
-            # request.session['original_url'] = original_url
-
-            sys.stderr.write(original_url + "\n")
-
-            #========================================================
-
-
-            #========================================================
-            # 出力画像を処理・保存
-            #========================================================
-            # modes_data = UploadImgModel.objects.create(
-            #     img=img, success_number=0
-            # )
-            # modes_data.save()
-
-            # #「model.py」のクラス内の関数を実行し、フィールド「result」に格納
-            # cv_calc_img = UploadImgModel.transform(modes_data)
 
 
             # アップロードされたimgファイルからPIL画像オブジェクト生成
@@ -82,8 +50,6 @@ def img_up(request):
                 cv_img, mask_df, mask_number
             )
 
-            print(cv_calc_img[0].shape)
-
 
             # -----------------------------------------------------------
             # S3へのアップロード
@@ -96,16 +62,6 @@ def img_up(request):
                 file_name = 'ks_img' + number + '.png'
                 cv2.imwrite(file_name, c_img)
                 s3_img_url.append(s3_dave.file_boto3(file_name, bucket_name))
-            # -----------------------------------------------------------
-
-            # request.session['s3_img_url'] = s3_img_url  # OpenCV処理画像
-            # request.session['success_number'] = success
-
-            #========================================================
-
-            print(s3_img_url)
-
-            # return HttpResponseRedirect(reverse('auto_ks_app:transform'))
 
             params = {
                 'original_url': original_url,
@@ -133,44 +89,22 @@ def img_up(request):
     # # -----------------------------------------------------------
 
     return render(request, 'auto_ks_app/ks_upload.html', {'form': form} )
-#
-#
+
 # ------------------------------------------------------------------
 
 
-def handle_uploaded_img(img_obj):
-    sys.stderr.write("*** handle_uploaded_img *** aaa ***\n")
-    sys.stderr.write(img_obj.name + "\n")
-    file_path = 'media/documents/' + img_obj.name
-    sys.stderr.write(file_path + "\n")
-    with open(file_path, 'wb+') as destination:
-        for chunk in img_obj.chunks():
-            sys.stderr.write("*** handle_uploaded_img *** ccc ***\n")
-            destination.write(chunk)
-            sys.stderr.write("*** handle_uploaded_img *** eee ***\n")
-#
-# ------------------------------------------------------------------
 
+# def transform(request):
+#     # セッションから画像URLを取り出す
+#     original_url = request.session.get('original_url')
+#     success_number = request.session['success_number']
+#     s3_img_url = request.session['s3_img_url']  # OpenCV処理画像
 
-def transform(request):
-    # セッションから画像URLを取り出す
-    original_url = request.session.get('original_url')
-    success_number = request.session['success_number']
-    s3_img_url = request.session['s3_img_url']  # OpenCV処理画像
+#     params = {
+#         'original_url': original_url,
+#         'result_url': s3_img_url,
+#         'success_number': success_number,
+#         }
 
-    print("=======\n")
-    print("=======\n")
-    print("=======\n")
-
-    print(original_url)
-    print(success_number)
-    print(s3_img_url)
-
-    params = {
-        'original_url': original_url,
-        'result_url': s3_img_url,
-        'success_number': success_number,
-        }
-
-    return render(request, 'auto_ks_app/ks_transform.html', params)
+#     return render(request, 'auto_ks_app/ks_transform.html', params)
 # ------------------------------------------------------------------
