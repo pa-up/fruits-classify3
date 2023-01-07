@@ -113,7 +113,7 @@ def img_up(request):
                 'success_number': success,
                 'form': form,
             }
-            form = UploadImgForm()
+            # form = UploadImgForm()
             return render(request, 'auto_ks_app/ks_result.html', params)
 
     else:
