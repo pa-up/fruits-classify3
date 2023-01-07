@@ -75,20 +75,24 @@ def img_up(request):
     else:
         form = UploadImgForm()
     
-    # # -----------------------------------------------------------
-    # # S3へのアップロード
-    # # -----------------------------------------------------------
+    # -----------------------------------------------------------
+    # S3へのアップロード
+    # -----------------------------------------------------------
     # bucket_name = "sample-img-save"
 
     # file_name = './sample_img.png'
-    # file_path = './data/sample_img/ks_img1.png'
+    # file_path = './static/sample_img/ks_img1.png'
     # sample_img = cv2.imread(file_path)
     # cv2.imwrite(file_name, sample_img)
 
     # sample_img_url = s3_dave.file_boto3(file_name, bucket_name)
-    # # -----------------------------------------------------------
+    # -----------------------------------------------------------
 
-    return render(request, 'auto_ks_app/ks_upload.html', {'form': form} )
+    params = {
+        'form': form,
+        # 'sample_img_url': sample_img_url,
+    }
+    return render(request, 'auto_ks_app/ks_upload.html', params)
 
 # ------------------------------------------------------------------
 
