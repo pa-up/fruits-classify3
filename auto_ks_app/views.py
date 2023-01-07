@@ -149,9 +149,9 @@ def transform(request):
     success_number = request.session['success_number']
     s3_img_url = request.session['s3_img_url']  # OpenCV処理画像
 
-    print("\n")
-    print("\n")
-    print("\n")
+    print("=======\n")
+    print("=======\n")
+    print("=======\n")
 
     print(original_url)
     print(success_number)
