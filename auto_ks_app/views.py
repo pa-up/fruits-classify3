@@ -104,7 +104,6 @@ def img_up(request):
             #========================================================
 
             print(s3_img_url)
-            sys.stderr.write(s3_img_url + "\n")
 
             return HttpResponseRedirect(reverse('auto_ks_app:transform'))
 
@@ -149,6 +148,10 @@ def transform(request):
     original_url = request.session.get('original_url')
     success_number = request.session['success_number']
     s3_img_url = request.session['s3_img_url']  # OpenCV処理画像
+
+    print(original_url)
+    print(success_number)
+    print(s3_img_url)
 
     params = {
         'original_url': original_url,
