@@ -50,7 +50,7 @@ def img_up(request):
             # -----------------------------------------------------------
             
             # 入力画像をセッション変数に保存
-            request.session['original_url'] = original_url
+            # request.session['original_url'] = original_url
 
             sys.stderr.write(original_url + "\n")
 
@@ -98,8 +98,8 @@ def img_up(request):
                 s3_img_url.append(s3_dave.file_boto3(file_name, bucket_name))
             # -----------------------------------------------------------
 
-            request.session['s3_img_url'] = s3_img_url  # OpenCV処理画像
-            request.session['success_number'] = success
+            # request.session['s3_img_url'] = s3_img_url  # OpenCV処理画像
+            # request.session['success_number'] = success
 
             #========================================================
 
