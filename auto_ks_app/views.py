@@ -105,7 +105,16 @@ def img_up(request):
 
             print(s3_img_url)
 
-            return HttpResponseRedirect(reverse('auto_ks_app:transform'))
+            # return HttpResponseRedirect(reverse('auto_ks_app:transform'))
+
+            params = {
+                'original_url': original_url,
+                'result_url': s3_img_url,
+                'success_number': success,
+                'form': form,
+            }
+            form = UploadImgForm()
+            return render(request, 'auto_ks_app/ks_result.html', params)
 
     else:
         form = UploadImgForm()
