@@ -1,3 +1,4 @@
+python==3.9
 anyio==3.5.0
 appnope==0.1.2
 argon2-cffi==21.3.0
@@ -132,5 +133,4 @@ whitenoise==6.2.0
 widgetsnbextension==3.5.2
 wsproto==1.2.0
 opencv-python--headless==4.6.0.66
-python==3.9
 tensorflow==2.5.0
