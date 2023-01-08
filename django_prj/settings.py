@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'auto_ks_app',
+    'classify_app',
 ]
 
 MIDDLEWARE = [

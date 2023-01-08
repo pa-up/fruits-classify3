@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auto_ks_app', '0007_uploadimgmodel_square_number'),
+        ('classify_app', '0007_uploadimgmodel_square_number'),
     ]
 
     operations = [

@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('auto_ks_app.urls'))
+    path('', include('classify_app.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Htmlレスポンスをmediaに格納
 
 # 管理者が画像を表示

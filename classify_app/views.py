@@ -93,5 +93,5 @@ def img_up(request):
 #         'success_number': success_number,
 #         }
 
-#     return render(request, 'auto_ks_app/ks_transform.html', params)
+#     return render(request, 'classify_app/ks_transform.html', params)
 # ------------------------------------------------------------------
