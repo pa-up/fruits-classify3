@@ -10,6 +10,7 @@ from classify_app.views_modules import s3_dave
 import cv2
 import numpy as np
 from PIL import Image
+import tensorflow
 from tensorflow.python.keras.models import load_model
 
 # ------------------------------------------------------------------
