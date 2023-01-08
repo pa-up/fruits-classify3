@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+  <title>果物判定サイト</title>
+  <style>
+    div.center_block {
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-top: 5%;
+      margin-bottom: 10%;
+    }
+    div.reg {
+      background-color: #EEEEEE;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      vertical-align: middle;
+      text-align: center;
+    }
+    .img_css {
+      width: 75%;
+    }
+    h1 {
+      text-align: center;
+    }
+</style>
+
+</head>
+
+<body>
+  <div class="center_block">
+    <h1>
+      果物判定サイト 〜ブドウ・みかん・りんごを判定します〜
+    </h1>
+    <p><br></p>
+
+    <div class="reg">
+      <h3>
+        判定したい画像をアップロードしてください
+      </h3>
+      <table>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">果物判定を実行</button>
+          <p></p>
+        </form>
+      </table>
+    </div>
+
+    <p><br></p>
+    <h3>
+      画像をアップロードする際の注意点
+    </h3>
+    <ul>
+      <li>可能な限り画像内の果物の大きさが大きい画像をアップロードしてください</li>
+      <li>果物はブドウ・みかん・りんごのいずれかにしか判定できません。<br>（NG例：<font color="red"><strong>1800</strong></font> × 300）</li>
+    </ul>
+  </div>
+  
+  <p><br></p>
+  <p><br></p>
+</body>
+</html>

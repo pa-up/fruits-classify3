@@ -1,0 +1,97 @@
+<!doctype html>
+<!-- {% load static %} -->
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>果物判定サイト</title>
+
+    <style>
+        div.center_block {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 5%;
+            margin-bottom: 10%;
+        }
+
+        div.reg {
+            background-color: #EEEEEE;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .img_css {
+            width: 75%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <h1>入力画像の判定結果</h1>
+    <br>
+
+    <div class="center_block">
+        <h2>
+            入力画像
+        </h2>
+        <img src="{{original_url}}" class="img_css">
+        <p><br></p>
+
+        <p>
+            入力画像は
+            <strong>
+                <font size="4.5">
+                    {{classify_result}}
+                </font>
+            </strong>
+            と判定されました。
+        </p>
+        <p><br></p>
+
+        <!-- <h2>
+            各果物と入力画像の一致確率
+        </h2>
+
+        <p>
+            <strong>
+                ブドウ
+            </strong>
+            である確率は
+            <strong>
+                {{classify_grape}}
+            </strong>
+        </p>
+        <p>
+            <strong>
+                りんご
+            </strong>
+            である確率は
+            <strong>
+                {{classify_apple}}
+            </strong>
+        </p>
+        <p>
+            <strong>
+                みかん
+            </strong>
+            である確率は
+            <strong>
+                {{classify_orange}}
+            </strong>
+        </p>
+
+
+        <p><br></p> -->
+
+        <p><br></p>
+    </div>
+</body>
+
+</html>

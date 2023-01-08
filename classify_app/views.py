@@ -4,13 +4,13 @@ from django.shortcuts import render
 from .forms import UploadImgForm
 # from .models import UploadImgModel
 
-from auto_ks_app.views_modules import cv2_calc
-from auto_ks_app.views_modules import pil_cv_binary
-from auto_ks_app.views_modules import s3_dave
+from classify_app.views_modules import pil_cv_binary
+from classify_app.views_modules import s3_dave
 
-import sys
 import cv2
+import numpy as np
 from PIL import Image
+from tensorflow.python.keras.models import load_model
 
 # ------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ def img_up(request):
             # -----------------------------------------------------------
             # S3へのアップロード
             # -----------------------------------------------------------
-            bucket_name = "ks-img-save"
+            bucket_name = "fruits-classify"
             file_name = "img.png"
             cv2.imwrite(file_name, cv_img)
             original_url = s3_dave.file_boto3(file_name, bucket_name)
@@ -43,42 +43,39 @@ def img_up(request):
             # PIL画像をOpenCV画像に変換
             cv_img = pil_cv_binary.pil2opencv(pil_img)
 
-            # OpenCVでの画像処理（台形補正）
-            mask_df = 20  # min閾値どうしの差
-            mask_number = int(250 / mask_df) + 1  # マスク画像の数(min閾値の数)
-            cv_calc_img, success = cv2_calc.auto_keystone(
-                cv_img, mask_df, mask_number
-            )
+            # 前処理
+            cv_img = cv2.cvtColor( cv_img , cv2.COLOR_BGR2RGB )
+            resize_settings = (50,50)  # リサイズ設定
+            cv_img = cv2.resize(cv_img, dsize=resize_settings)  # リサイズ実行
+            x_01 = cv_img.astype("float") / cv_img.max()  # 0~255の整数 → 0~1の数値
+            x_up_model = x_01[np.newaxis , : , : , :]  # TensorFlow に適合するデータ型に変更
 
+            # モデルの読み込み
+            ai_model = load_model('fruits_classify.h5')
 
-            # -----------------------------------------------------------
-            # S3へのアップロード
-            # -----------------------------------------------------------
-            bucket_name = "ks-img-save"
-            s3_img_url = []
+            # モデルの実行
+            y = ai_model.predict(x_up_model)
+            labels = ["grape" , "apple" , "orange"]     
+            classify_result = str( labels[np.argmax(y[0 , :])] )
 
-            for k , c_img in enumerate(cv_calc_img):
-                number = str(k)
-                file_name = 'ks_img' + number + '.png'
-                cv2.imwrite(file_name, c_img)
-                s3_img_url.append(s3_dave.file_boto3(file_name, bucket_name))
+            # 再入力フォーム
+            form = UploadImgForm()
 
+            # HTMLに渡す変数
             params = {
                 'original_url': original_url,
-                'result_url': s3_img_url,
-                'success_number': success,
-                'form': form,
+                'classify_result': classify_result,
             }
-            form = UploadImgForm()
-            return render(request, 'auto_ks_app/ks_result.html', params)
+            return render(request, 'classify_app/classify.html', params)
 
     else:
         form = UploadImgForm()
-
+    
+    # HTMLに渡す変数
     params = {
         'form': form,
     }
-    return render(request, 'auto_ks_app/ks_upload.html', params)
+    return render(request, 'classify_app/fruits_upload.html', params)
 
 # ------------------------------------------------------------------
 
