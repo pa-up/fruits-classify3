@@ -132,9 +132,5 @@ wheel==0.37.1
 whitenoise==6.2.0
 widgetsnbextension==3.5.2
 wsproto==1.2.0
-tensorboard==2.10.0
-tensorboard-data-server==0.6.1
-tensorboard-plugin-wit==1.6.0
 opencv-python--headless==4.6.0.66
 tensorflow==2.10.0
-tensorflow-estimator==2.10.0
