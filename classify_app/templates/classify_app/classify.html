@@ -37,6 +37,20 @@
     <h1>入力画像の判定結果</h1>
     <br>
 
+    <div class="reg">
+        <h3>
+            果物判定したい画像をアップロードしてください
+        </h3>
+        <table>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">果物判定を実行</button>
+                <p></p>
+            </form>
+        </table>
+    </div>
+
     <div class="center_block">
         <h2>
             入力画像
