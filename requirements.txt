@@ -1,4 +1,4 @@
-gunicorn=
+gunicorn
 boto3==1.23.10
 Django==3.2.16
 keras===2.8.0rc0
