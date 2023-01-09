@@ -10,6 +10,7 @@ import numpy as np
 from PIL import Image
 from tensorflow.python.keras.models import load_model
 import urllib.request
+import requests
 
 # ------------------------------------------------------------------
 
@@ -53,13 +54,13 @@ def img_up(request):
             x_up_model = x_01[np.newaxis , : , : , :]  # TensorFlow に適合するデータ型に変更
 
             # モデルの読み込み
-            com = urllib.request.urlopen(
-                "https://fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5"
-            )
-            ret=com.read()
-            com.close()
-            ai_model = load_model(ret)
-
+            s3_static_url='https://fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5'
+            filename='fruits_classify_url.h5'
+            urlData = requests.get(s3_static_url).content
+            with open(filename ,mode='wb') as f: # wb でバイト型を書き込める
+                f.write(urlData)
+            ai_model = load_model(filename)
+            
             # モデルの実行
             y = ai_model.predict(x_up_model)
             labels = ["grape" , "apple" , "orange"]     
