@@ -14,10 +14,13 @@ from tensorflow.python.keras.models import load_model
 
 
 def img_up(request):
+    print("hellow1")
     if request.method == 'POST':
+        print("hellow2")
         form = UploadImgForm(request.POST, request.FILES)
         if form.is_valid():
             img_obj = request.FILES['img']
+            print("hellow3")
 
             #========================================================
             # 入力画像を処理・保存
