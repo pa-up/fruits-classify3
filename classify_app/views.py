@@ -55,16 +55,25 @@ def img_up(request):
 
             # モデルの読み込み
             s3_static_url='https://fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5'
+            print("hellow4")
             filename='fruits_classify_url.h5'
+            print("hellow5")
             urlData = requests.get(s3_static_url).content
+            print("hellow6")
             with open(filename ,mode='wb') as f: # wb でバイト型を書き込める
                 f.write(urlData)
+            print("hellow7")
             ai_model = load_model(filename)
+            print("hellow8")
+            print(ai_model)
             
             # モデルの実行
             y = ai_model.predict(x_up_model)
-            labels = ["grape" , "apple" , "orange"]     
+            print("hellow9")
+            labels = ["grape" , "apple" , "orange"]  
+            print("hellow10")   
             classify_result = str( labels[np.argmax(y[0 , :])] )
+            print("hellow11")
 
             # 再入力フォーム
             form = UploadImgForm()
