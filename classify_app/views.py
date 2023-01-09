@@ -54,7 +54,7 @@ def img_up(request):
 
             # モデルの読み込み
             com = urllib.request.urlopen(
-                "https: // fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5"
+                "https://fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5"
             )
             ret=com.read()
             com.close()
