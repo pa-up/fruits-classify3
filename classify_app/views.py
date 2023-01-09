@@ -57,13 +57,14 @@ def img_up(request):
             
             # モデルの実行
             y = ai_model.predict(x_up_model)
-            labels = ["grape" , "apple" , "orange"]  
+            labels = ["ブドウ" , "りんご" , "みかん"]  
             classify_result = str( labels[np.argmax(y[0 , :])] )
 
             # HTMLに渡す変数
             params = {
                 'original_url': original_url,
                 'classify_result': classify_result,
+                'form': form,
             }
             # 再入力フォーム
             form = UploadImgForm()
