@@ -52,7 +52,7 @@ def img_up(request):
             x_up_model = x_01[np.newaxis , : , : , :]  # TensorFlow に適合するデータ型に変更
 
             # モデルの読み込み
-            ai_model = load_model('fruits_classify.h5')
+            ai_model = load_model('./fruits_classify.h5')
 
             # モデルの実行
             y = ai_model.predict(x_up_model)
