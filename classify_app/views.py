@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .forms import UploadImgForm
-# from .models import UploadImgModel
 
 from classify_app.views_modules import pil_cv_binary
 from classify_app.views_modules import s3_dave
@@ -9,20 +8,14 @@ import cv2
 import numpy as np
 from PIL import Image
 from tensorflow.python.keras.models import load_model
-import urllib.request
 import requests
-
-# ------------------------------------------------------------------
 
 
 def img_up(request):
-    print("hellow1")
     if request.method == 'POST':
-        print("hellow2")
         form = UploadImgForm(request.POST, request.FILES)
         if form.is_valid():
             img_obj = request.FILES['img']
-            print("hellow3")
 
             #========================================================
             # 入力画像を処理・保存
@@ -55,34 +48,25 @@ def img_up(request):
 
             # モデルの読み込み
             s3_static_url='https://fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5'
-            print("hellow4")
             filename='fruits_classify_url.h5'
-            print("hellow5")
             urlData = requests.get(s3_static_url).content
-            print("hellow6")
             with open(filename ,mode='wb') as f: # wb でバイト型を書き込める
                 f.write(urlData)
-            print("hellow7")
             ai_model = load_model(filename)
-            print("hellow8")
             print(ai_model)
             
             # モデルの実行
             y = ai_model.predict(x_up_model)
-            print("hellow9")
             labels = ["grape" , "apple" , "orange"]  
-            print("hellow10")   
             classify_result = str( labels[np.argmax(y[0 , :])] )
-            print("hellow11")
-
-            # 再入力フォーム
-            form = UploadImgForm()
 
             # HTMLに渡す変数
             params = {
                 'original_url': original_url,
                 'classify_result': classify_result,
             }
+            # 再入力フォーム
+            form = UploadImgForm()
             return render(request, 'classify_app/classify.html', params)
 
     else:
