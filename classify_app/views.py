@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from tensorflow.python.keras.models import load_model
+import urllib.request
 
 # ------------------------------------------------------------------
 
@@ -52,7 +53,12 @@ def img_up(request):
             x_up_model = x_01[np.newaxis , : , : , :]  # TensorFlow に適合するデータ型に変更
 
             # モデルの読み込み
-            ai_model = load_model('./fruits_classify.h5')
+            com = urllib.request.urlopen(
+                "https: // fruits-classify.s3.ap-northeast-1.amazonaws.com/fruits_classify.h5"
+            )
+            ret=com.read()
+            com.close()
+            ai_model = load_model(ret)
 
             # モデルの実行
             y = ai_model.predict(x_up_model)
