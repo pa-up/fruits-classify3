@@ -9,3 +9,4 @@ opencv-python--headless==4.6.0.66
 requests==2.27.1
 tensorflow==1.14.0
 django_heroku
+pymysql
