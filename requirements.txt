@@ -10,5 +10,7 @@ pip==21.3.1
 opencv-python--headless==4.6.0.66
 requests==2.27.1
 tensorflow==1.14.0
+keras==2.2.5
+h5py==2.10.0
 django_heroku
 pymysql
